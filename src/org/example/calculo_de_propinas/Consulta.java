@@ -1,6 +1,7 @@
 package org.example.calculo_de_propinas;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -78,7 +79,11 @@ public class Consulta extends Activity {
 		String result = "Monto total a pagar: " + String.format("%.2f", total) + "\n"
 				      + "Cada persona debe pagar: " + String.format("%.2f", indiv);
 				
-		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		
+		Intent intent = new Intent(this, Resultado.class);
+		intent.putExtra("mensaje", result);
+		startActivity(intent);
 		
 	}
 	

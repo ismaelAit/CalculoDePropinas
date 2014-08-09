@@ -2,19 +2,13 @@
 <resources>
 
     <string name="app_name">Calculo de Propinas</string>
-
     <string name="monto">Monto</string>
-
     <string name="ingrese_monto">Ingrese monto total</string>
-
     <string name="propina">Propina</string>
-
     <string name="ingrese_propina">Ingrese porcentaje de propina</string>
-
     <string name="personas">Personas</string>
-
     <string name="ingrese_personas">Ingrese cantidad de personas</string>
-
     <string name="calcular">Calcular</string>
+    <string name="title_activity_resultado">Resultado</string>
 
 </resources>
