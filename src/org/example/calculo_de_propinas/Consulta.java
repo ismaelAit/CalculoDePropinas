@@ -1,8 +1,11 @@
 package org.example.calculo_de_propinas;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -181,15 +184,33 @@ public class Consulta extends Activity {
 		
 //		String result = String.format("Monto total a pagar: %.2f\nCada persona debe pagar: %.2f", total, indiv);
 		
-		String result = "Monto total a pagar: " + String.format("%.2f", total) + "\n"
-				      + "Cada persona debe pagar: " + String.format("%.2f", indiv);
+		String strResult = "Monto total a pagar: " + String.format("%.2f", total) + "\n"
+				      	 + "Cada persona debe pagar: " + String.format("%.2f", indiv);
 				
-//		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		String strNotify = "Total: " + String.format("%.2f", total) + " -- Persona: " + String.format("%.2f", indiv);
 		
 		Intent intent = new Intent(this, Resultado.class);
-		intent.putExtra("mensaje", result);
-		startActivity(intent);
+		intent.putExtra("mensaje", strResult);
 		
+		notificar(strNotify, intent);
+
+	}
+	
+	private void notificar(String msj, Intent intent) {
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+			.setSmallIcon(R.drawable.ic_stat_notify)
+			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+			.setContentText("Resultado")
+			.setAutoCancel(true)
+			.setContentText(msj)
+			.setContentIntent(pendingIntent);
+
+		NotificationManager notiMan = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		notiMan.notify(1, builder.build());
+
 	}
 	
 }
