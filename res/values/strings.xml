@@ -10,5 +10,7 @@
     <string name="ingrese_personas">Ingrese cantidad de personas</string>
     <string name="calcular">Calcular</string>
     <string name="title_activity_resultado">Resultado</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="valores">Default</string>
 
 </resources>

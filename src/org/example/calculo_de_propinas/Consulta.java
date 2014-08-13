@@ -3,7 +3,12 @@ package org.example.calculo_de_propinas;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,6 +17,7 @@ public class Consulta extends Activity {
 	EditText montoText;
 	EditText propinaText;
 	EditText personasText;
+	EditText selected;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,78 @@ public class Consulta extends Activity {
 		montoText = (EditText) findViewById(R.id.editTextMonto);
 		propinaText = (EditText) findViewById(R.id.editTextPropina);
 		personasText = (EditText) findViewById(R.id.editTextPersonas);
+		
+		registerForContextMenu(montoText);
+		registerForContextMenu(propinaText);
+		registerForContextMenu(personasText);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_consulta, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.itemLimpiar:
+			Toast.makeText(this, "limpiando todo...", Toast.LENGTH_SHORT).show();
+			limpiar();
+			break;
+		case R.id.itemDefault:
+			Toast.makeText(this, "poniendo valores default...", Toast.LENGTH_SHORT).show();
+			valoresDefault();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}	
+		return true;
+	}
+	
+	private void limpiar() {
+		montoText.setText("");
+		propinaText.setText("");
+		personasText.setText("");
+	}
+	
+	private void valoresDefault() {
+		montoText.setText("0");
+		propinaText.setText("10");
+		personasText.setText("1");
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		
+		switch (v.getId()) {
+		case R.id.editTextMonto:
+		case R.id.editTextPersonas:
+		case R.id.editTextPropina:
+			getMenuInflater().inflate(R.menu.menu_individual, menu);
+			selected = (EditText) v;
+			break;
+		default:
+			super.onCreateContextMenu(menu, v, menuInfo);
+			break;
+		}
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.itemLimpiarIndividual:
+			Toast.makeText(this, "limpiando item...", Toast.LENGTH_SHORT).show();
+			selected.setText("");
+			break;
+		default:
+			return super.onContextItemSelected(item);
+		}	
+		return true;
 	}
 	
 	private double obtenerValorDecimal(EditText text) {
