@@ -72,18 +72,15 @@
         android:text="@string/personas"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-     <EditText
-         android:id="@+id/editTextPersonas"
-         android:layout_width="match_parent"
+     <Spinner
+         android:id="@+id/spinnerPersonas"
+         android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_alignParentLeft="true"
          android:layout_below="@+id/textViewPersonas"
          android:layout_marginLeft="10dp"
          android:layout_marginRight="10dp"
-         android:layout_marginTop="6dp"
-         android:ems="10"
-         android:hint="@string/ingrese_personas"
-         android:inputType="number" />
+         android:layout_marginTop="6dp" />
 
      <Button
          android:id="@+id/buttonCalcular"

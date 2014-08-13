@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +21,7 @@ public class Consulta extends Activity {
 	EditText montoText;
 	SeekBar propinaBar;
 	TextView propinaValor;
-	EditText personasText;
+	Spinner personasSpinner;
 	EditText selected;
 	
 	@Override
@@ -30,12 +32,19 @@ public class Consulta extends Activity {
 		montoText = (EditText) findViewById(R.id.editTextMonto);
 		propinaBar = (SeekBar) findViewById(R.id.seekBarPropina);
 		propinaValor = (TextView) findViewById(R.id.textViewPropinaValor);
-		personasText = (EditText) findViewById(R.id.editTextPersonas);
+		personasSpinner = (Spinner) findViewById(R.id.spinnerPersonas);
 		
 		registerForContextMenu(montoText);
-		registerForContextMenu(personasText);
 
 		configurarSeekBar();
+		configurarSpinner();
+	}
+
+	private void configurarSpinner() {
+		String[] items = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		personasSpinner.setAdapter(arrayAdapter);
 	}
 
 	private void configurarSeekBar() {
@@ -86,13 +95,13 @@ public class Consulta extends Activity {
 	private void limpiar() {
 		montoText.setText("");
 		propinaBar.setProgress(0);
-		personasText.setText("");
+		personasSpinner.setSelection(0);
 	}
 	
 	private void valoresDefault() {
-		montoText.setText("0");
+		montoText.setText("100");
 		propinaBar.setProgress(10);
-		personasText.setText("1");
+		personasSpinner.setSelection(1);
 	}
 	
 	@Override
@@ -100,7 +109,6 @@ public class Consulta extends Activity {
 		
 		switch (v.getId()) {
 		case R.id.editTextMonto:
-		case R.id.editTextPersonas:
 			getMenuInflater().inflate(R.menu.menu_individual, menu);
 			selected = (EditText) v;
 			break;
@@ -137,8 +145,8 @@ public class Consulta extends Activity {
 		}
 	}
 	
-	private int obtenerValorEntero(EditText text) {
-		String str = text.getText().toString();
+	private int obtenerValorEntero(String str) {
+//		String str = text.getText().toString();
 		int entero;
 		try {
 			entero = Integer.parseInt(str);
@@ -162,7 +170,7 @@ public class Consulta extends Activity {
 			return;
 		}
 		propina = propinaBar.getProgress();
-		personas = obtenerValorEntero(personasText);
+		personas = obtenerValorEntero((String) personasSpinner.getSelectedItem());
 		if (personas <= 0) {
 			Toast.makeText(this, "Campo \"Personas\" debe ser un número entero positivo", Toast.LENGTH_SHORT).show();
 			return;
