@@ -10,12 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Consulta extends Activity {
 
 	EditText montoText;
-	EditText propinaText;
+	SeekBar propinaBar;
+	TextView propinaValor;
 	EditText personasText;
 	EditText selected;
 	
@@ -25,12 +28,33 @@ public class Consulta extends Activity {
 		setContentView(R.layout.activity_consulta);
 		
 		montoText = (EditText) findViewById(R.id.editTextMonto);
-		propinaText = (EditText) findViewById(R.id.editTextPropina);
+		propinaBar = (SeekBar) findViewById(R.id.seekBarPropina);
+		propinaValor = (TextView) findViewById(R.id.textViewPropinaValor);
 		personasText = (EditText) findViewById(R.id.editTextPersonas);
 		
 		registerForContextMenu(montoText);
-		registerForContextMenu(propinaText);
 		registerForContextMenu(personasText);
+
+		configurarSeekBar();
+	}
+
+	private void configurarSeekBar() {
+
+		propinaBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				propinaValor.setText("" + progress + "%");
+			}
+		});
+		propinaValor.setText("" + propinaBar.getProgress() + "%");
+		
 	}
 	
 	@Override
@@ -61,13 +85,13 @@ public class Consulta extends Activity {
 	
 	private void limpiar() {
 		montoText.setText("");
-		propinaText.setText("");
+		propinaBar.setProgress(0);
 		personasText.setText("");
 	}
 	
 	private void valoresDefault() {
 		montoText.setText("0");
-		propinaText.setText("10");
+		propinaBar.setProgress(10);
 		personasText.setText("1");
 	}
 	
@@ -77,7 +101,6 @@ public class Consulta extends Activity {
 		switch (v.getId()) {
 		case R.id.editTextMonto:
 		case R.id.editTextPersonas:
-		case R.id.editTextPropina:
 			getMenuInflater().inflate(R.menu.menu_individual, menu);
 			selected = (EditText) v;
 			break;
@@ -138,11 +161,7 @@ public class Consulta extends Activity {
 			Toast.makeText(this, "Campo \"Monto\" debe ser un número positivo", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		propina = obtenerValorDecimal(propinaText);
-		if (propina < 0) {
-			Toast.makeText(this, "Campo \"Propina\" debe ser un número no negativo", Toast.LENGTH_SHORT).show();
-			return;
-		}
+		propina = propinaBar.getProgress();
 		personas = obtenerValorEntero(personasText);
 		if (personas <= 0) {
 			Toast.makeText(this, "Campo \"Personas\" debe ser un número entero positivo", Toast.LENGTH_SHORT).show();

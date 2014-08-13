@@ -39,8 +39,18 @@
         android:text="@string/propina"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/editTextPropina"
+     <TextView
+         android:id="@+id/textViewPropinaValor"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_below="@+id/editTextMonto"
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="10dp"
+         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <SeekBar
+        android:id="@+id/seekBarPropina"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -48,16 +58,15 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
-        android:ems="10"
-        android:hint="@string/ingrese_propina"
-        android:inputType="numberDecimal" />
+        android:max="50"
+        android:progress="0" />
 
     <TextView
         android:id="@+id/textViewPersonas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editTextPropina"
+        android:layout_below="@+id/seekBarPropina"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:text="@string/personas"
